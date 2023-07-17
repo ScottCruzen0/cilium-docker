@@ -1,0 +1,15 @@
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+name: {{ .cname }}
+nodes:
+- role: control-plane
+- role: worker
+- role: worker
+- role: worker
+networking:
+  apiServerAddress: "{{ .host_ip }}"
+  apiServerPort: 6443
+  disableDefaultCNI: true
+  kubeProxyMode: none
+  podSubnet: "{{ .cluster_subnet }}"
+  serviceSubnet: "{{ .service_subnet }}"

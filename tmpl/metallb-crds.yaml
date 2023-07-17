@@ -1,0 +1,17 @@
+apiVersion: metallb.io/v1beta1
+kind: IPAddressPool
+metadata:
+  name: cilium-pool
+  namespace: metallb-system
+spec:
+  addresses:
+    - {{ .lb_pool_range }}
+---
+apiVersion: metallb.io/v1beta1
+kind: L2Advertisement
+metadata:
+  name: cilium-pool
+  namespace: metallb-system
+spec:
+  ipAddressPools:
+  - cilium-pool

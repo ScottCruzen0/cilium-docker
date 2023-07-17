@@ -1,0 +1,7 @@
+apiVersion: "cilium.io/v2alpha1"
+kind: CiliumLoadBalancerIPPool
+metadata:
+  name: "clilium-pool"
+spec:
+  cidrs:
+  - cidr: "{{ .lb_pool_cdir }}"
