@@ -27,6 +27,7 @@ GSC2_YAML="$YAML_DIR/cluster2.yaml"
 ACCESS_TEST_LOOPS="7"
 
 access_test() {
+  set +e
   for ctx in "$CTX1" "$CTX2"; do
     echo "Running $ACCESS_TEST_LOOPS tests from '$ctx'"
     counter=0

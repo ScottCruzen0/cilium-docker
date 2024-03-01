@@ -1,0 +1,24 @@
+#!/bin/bash
+
+# Use jq to implement tmpl only supporting -v and a positional argument as template filename
+# https://github.com/krakozaure/tmpl/
+
+json_string="{}"
+
+# Process each -v argument to build the JSON string
+while [[ "$#" -gt 0 ]]; do
+    case $1 in
+        -v)
+            IFS="=" read key value <<< "$2" # Split the key=value pair
+            json_string=$(echo $json_string | jq -rc --arg k "$key" --arg v "$value" '. + {($k): $v}') # Add the pair to the JSON string
+            shift 2
+            ;;
+        *)  # Assume the first positional argument after options is the filename
+            filename="$1"
+            shift
+            break
+            ;;
+    esac
+done
+
+cue tmpl -t filename=$filename -t json="$json_string"

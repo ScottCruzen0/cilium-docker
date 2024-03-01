@@ -1,4 +1,4 @@
-apiVersion: k3d.io/v1alpha4
+apiVersion: k3d.io/v1alpha5
 kind: Simple
 metadata:
   name: {{ .cname }}
@@ -9,7 +9,6 @@ kubeAPI:
   hostIP: {{ .host_ip }}
   hostPort: "6443"
 network: cilium
-token: CiliumTest1
 volumes:
   - volume: {{ .work_dir }}/bin/k3d-entrypoint-cilium.sh:/bin/k3d-entrypoint-cilium.sh
     nodeFilters:

@@ -27,6 +27,8 @@ LOADBALANCER_MODE="shared"
 
 TUNNEL="vxlan"
 
+CILIUM_VERSION="1.15.1"
+
 K3D_NETWORK_NAME="cilium"
 K3D_NET_PREFIX="172.30"
 K3D_CLUSTER_SUBNET_PREFIX="10.1"
@@ -40,7 +42,7 @@ NETWORK_TYPE="bridge"
 
 METALLB_ENABLED="true"
 METALLB_BASE_URL="https://raw.githubusercontent.com/metallb/metallb"
-METALLB_VERSION="v0.13.9"
+METALLB_VERSION="v0.14.3"
 METALLB_DEPLOY_YAML="config/manifests/metallb-native.yaml"
 METALLB_YAML_URL="$METALLB_BASE_URL/$METALLB_VERSION/$METALLB_DEPLOY_YAML"
 METALLB_YAML="$YAML_DIR/metallb-native.yaml"
@@ -70,6 +72,10 @@ fi
 # FUNCTIONS
 # ---------
 
+tmpl() {
+    ./sbin/tmpl $*
+}
+
 create_network() {
   NETWORK_ID="$(
     docker network inspect "$NETWORK_NAME" --format "{{.Id}}" 2>/dev/null
@@ -98,8 +104,8 @@ create_cluster() {
       -v "cluster_subnet=$CLUSTER_SUBNET" \
       -v "service_subnet=$SERVICE_SUBNET" \
       -v "work_dir=$WORK_DIR" \
-      "$TMPL_K3D_CONFIG_YAML" |
-      k3d cluster create -c -
+      "$TMPL_K3D_CONFIG_YAML" 
+      echo k3d cluster create -c -
   ;;
   kind)
     tmpl \
